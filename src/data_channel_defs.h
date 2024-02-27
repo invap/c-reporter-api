@@ -2,17 +2,21 @@
 #define SIMULADOR_DATA_CHANNEL_DEFS_H
 
 #define BUFFER_SIZE 65536 // 64K(os default) max string length to call (from the code) a test action (to be executed by the simulator)
-#define MAX_BUFFER_SIZE 1036
-#define BUFFER_CAPACITY BUFFER_SIZE / MAX_BUFFER_SIZE
+#ifndef MAX_EVENT_SIZE
+    #define MAX_EVENT_SIZE 120
+#endif
+
+#define MAX_EVENT_PKG_SIZE MAX_EVENT_SIZE+8
+#define BUFFER_CAPACITY BUFFER_SIZE / MAX_EVENT_PKG_SIZE
 
 //Structure of hardware_event packages
 typedef struct {
-    char data[1024];
+    char data[MAX_EVENT_SIZE];
 } hardwareEventPkg;
 
 //Structure of workflow_event packages
 typedef struct {
-    char data[1024];
+    char data[MAX_EVENT_SIZE];
 } workflowEventPkg;
 
 //classification of the different types of events
