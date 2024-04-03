@@ -12,7 +12,7 @@ void packAndSend(reporterPkg pkg){
     buffer_used++;
     // If the buffer is full, send it and mark as empty
     if (buffer_used==BUFFER_CAPACITY){
-        fwrite(&buffer, MAX_EVENT_PKG_SIZE, BUFFER_CAPACITY, stdout);
+        fwrite(&buffer, sizeof(buffer), 1, stdout);
         fflush(stdout);
         buffer_used=0;
     }
