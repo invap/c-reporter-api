@@ -6,8 +6,8 @@
     #define MAX_EVENT_SIZE 120
 #endif
 
-#define MAX_EVENT_PKG_SIZE MAX_EVENT_SIZE+8
-#define BUFFER_CAPACITY BUFFER_SIZE / MAX_EVENT_PKG_SIZE
+#define MAX_EVENT_PKG_SIZE (MAX_EVENT_SIZE + 8)
+#define BUFFER_CAPACITY (BUFFER_SIZE / MAX_EVENT_PKG_SIZE)
 
 //Structure of component_event packages
 typedef struct {

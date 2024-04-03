@@ -23,7 +23,7 @@ void report (clock_t time, eventType event_type, char* event){
     pkg.time = time;
     pkg.event_type = event_type;
     switch (pkg.event_type){
-        case hardware_event: {
+        case component_event: {
             sprintf(pkg.event.component_event_pkg.data, "%-*s\n", MAX_EVENT_SIZE, event);
             break;
         }
