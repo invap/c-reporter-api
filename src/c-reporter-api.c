@@ -24,11 +24,11 @@ void report (clock_t time, eventType event_type, char* event){
     pkg.event_type = event_type;
     switch (pkg.event_type){
         case component_event: {
-            sprintf(pkg.event.component_event_pkg.data, "%-*s\n", MAX_EVENT_SIZE, event);
+            sprintf(pkg.event.component_event_pkg.data, "%-*s\n", MAX_EVENT_SIZE-2, event);
             break;
         }
         case workflow_event:{
-            sprintf(pkg.event.workflow_event_pkg.data, "%-*s\n", MAX_EVENT_SIZE, event);
+            sprintf(pkg.event.workflow_event_pkg.data, "%-*s\n", MAX_EVENT_SIZE-2, event);
             break;
         }
         default:
