@@ -9,10 +9,10 @@
 #define MAX_EVENT_PKG_SIZE MAX_EVENT_SIZE+8
 #define BUFFER_CAPACITY BUFFER_SIZE / MAX_EVENT_PKG_SIZE
 
-//Structure of hardware_event packages
+//Structure of component_event packages
 typedef struct {
     char data[MAX_EVENT_SIZE];
-} hardwareEventPkg;
+} componentEventPkg;
 
 //Structure of workflow_event packages
 typedef struct {
@@ -20,13 +20,13 @@ typedef struct {
 } workflowEventPkg;
 
 //classification of the different types of events
-typedef enum {hardware_event, workflow_event} eventType;
+typedef enum {component_event, workflow_event} eventType;
 
 typedef struct {
     clock_t time;
     eventType event_type;
     union {
-        hardwareEventPkg hardware_event_pkg;
+        componentEventPkg component_event_pkg;
         workflowEventPkg workflow_event_pkg;
     } event;
 } reporterPkg;
