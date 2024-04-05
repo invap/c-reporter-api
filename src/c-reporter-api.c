@@ -6,6 +6,8 @@
 reporterPkg buffer[BUFFER_CAPACITY];
 int buffer_used=0;
 
+timer clk;
+
 void packAndSend(reporterPkg pkg){
     // Assume that the buffer always is not full
     buffer[buffer_used]=pkg;
@@ -18,9 +20,9 @@ void packAndSend(reporterPkg pkg){
     }
 }
 
-void report (clock_t time, eventType event_type, char* event){
+void report (eventType event_type, char* event){
     reporterPkg pkg;
-    pkg.time = time;
+    pkg.time = timestamp (&clk);
     pkg.event_type = event_type;
     switch (pkg.event_type){
         case component_event: {
