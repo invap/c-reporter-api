@@ -1,12 +1,14 @@
-#include "c-reporter-api.h"
-
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+
+#include "../include/c-reporter-api.h"
+#include "../../timer/include/timer.h"
 
 reporterPkg buffer[BUFFER_CAPACITY];
 int buffer_used=0;
 
-timer clk;
+timer reporting_clk;
 
 void packAndSend(reporterPkg pkg){
     // Assume that the buffer always is not full
@@ -22,7 +24,7 @@ void packAndSend(reporterPkg pkg){
 
 void report (eventType event_type, char* event){
     reporterPkg pkg;
-    pkg.time = timestamp (&clk);
+    pkg.time = timestamp (&reporting_clk);
     pkg.event_type = event_type;
     switch (pkg.event_type){
         case component_event: {

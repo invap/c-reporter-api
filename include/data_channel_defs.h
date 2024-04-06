@@ -9,6 +9,8 @@
 #define MAX_EVENT_PKG_SIZE (MAX_EVENT_SIZE + 12)
 #define BUFFER_CAPACITY (BUFFER_SIZE / MAX_EVENT_PKG_SIZE)
 
+#include <time.h>
+
 //Structure of component_event packages
 typedef struct {
     char data[MAX_EVENT_SIZE];
