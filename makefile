@@ -1,9 +1,10 @@
-clean:
-	rm -rf bin/*.o *.dSYM
+.PHONY : clean bin lib
 
-debug:
-	gcc -g -c src/c-reporter-api.c -o bin/c-reporter-api.o
+clean :
+	rm -rf bin/*.o lib/*.a
 
-main:
+bin : clean
 	gcc -c src/c-reporter-api.c -o bin/c-reporter-api.o
 
+lib : clean bin
+	ar -rcs lib/libc-reporter-api.a bin/c-reporter-api.o
