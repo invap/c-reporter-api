@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "../include/c-reporter-api.h"
-#include "../../timer/include/timer.h"
+#include "../include/timer.h"
 
 reporterPkg buffer[BUFFER_CAPACITY];
 int buffer_used=0;
