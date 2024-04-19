@@ -11,6 +11,16 @@
 
 #include <time.h>
 
+//Structure of timed_event packages
+typedef struct {
+    char data[MAX_EVENT_SIZE];
+} timedEventPkg;
+
+//Structure of state_event packages
+typedef struct {
+    char data[MAX_EVENT_SIZE];
+} stateEventPkg;
+
 //Structure of component_event packages
 typedef struct {
     char data[MAX_EVENT_SIZE];
@@ -22,12 +32,14 @@ typedef struct {
 } workflowEventPkg;
 
 //classification of the different types of events
-typedef enum {component_event, workflow_event} eventType;
+typedef enum {timed_event, state_event, component_event, workflow_event} eventType;
 
 typedef struct {
     clock_t time;
     eventType event_type;
     union {
+        timedEventPkg timed_event_pkg;
+        stateEventPkg state_event_pkg;
         componentEventPkg component_event_pkg;
         workflowEventPkg workflow_event_pkg;
     } event;

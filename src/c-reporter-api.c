@@ -3,12 +3,12 @@
 #include <string.h>
 
 #include "../include/c-reporter-api.h"
-#include "../include/timer.h"
+#include "../include/stopwatch.h"
 
 reporterPkg buffer[BUFFER_CAPACITY];
 int buffer_used=0;
 
-timer reporting_clk;
+stopwatch reporting_clk;
 
 void packAndSend(reporterPkg pkg){
     // Assume that the buffer always is not full
@@ -24,9 +24,17 @@ void packAndSend(reporterPkg pkg){
 
 void report (eventType event_type, char* event){
     reporterPkg pkg;
-    pkg.time = timestamp (&reporting_clk);
+    pkg.time = getTime (&reporting_clk);
     pkg.event_type = event_type;
     switch (pkg.event_type){
+        case timed_event: {
+            sprintf(pkg.event.timed_event_pkg.data, "%-*s\n", MAX_EVENT_SIZE-2, event);
+            break;
+        }
+        case state_event:{
+            sprintf(pkg.event.state_event_pkg.data, "%-*s\n", MAX_EVENT_SIZE-2, event);
+            break;
+        }
         case component_event: {
             sprintf(pkg.event.component_event_pkg.data, "%-*s\n", MAX_EVENT_SIZE-2, event);
             break;
