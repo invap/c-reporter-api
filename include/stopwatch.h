@@ -17,7 +17,6 @@ typedef struct {
 void start (stopwatch*);
 void pause (stopwatch*);
 void resume (stopwatch*);
-void reset (stopwatch*);
 clock_t getTime (stopwatch*);
 
 #endif //C_REPORTER_API_STOPWATCH_H
