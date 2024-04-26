@@ -21,23 +21,28 @@ typedef struct {
     char data[MAX_EVENT_SIZE];
 } stateEventPkg;
 
-//Structure of component_event packages
-typedef struct {
-    char data[MAX_EVENT_SIZE];
-} componentEventPkg;
-
 //Structure of workflow_event packages
 typedef struct {
     char data[MAX_EVENT_SIZE];
 } workflowEventPkg;
 
+//Structure of component_event packages
+typedef struct {
+    char data[MAX_EVENT_SIZE];
+} componentEventPkg;
+
 //Structure of init_event packages
 typedef struct {
     char data[MAX_EVENT_SIZE];
-} initEventPkg
+} initEventPkg;
+
+//Structure of component_event packages
+typedef struct {
+    char data[MAX_EVENT_SIZE];
+} selfLoggableComponentEventPkg;
 
 //classification of the different types of events
-typedef enum {timed_event, state_event, component_event, workflow_event, init_event} eventType;
+typedef enum {timed_event, state_event, workflow_event, component_event, init_event, self_loggable_component_event} eventType;
 
 typedef struct {
     clock_t time;
@@ -45,8 +50,9 @@ typedef struct {
     union {
         timedEventPkg timed_event_pkg;
         stateEventPkg state_event_pkg;
-        componentEventPkg component_event_pkg;
         workflowEventPkg workflow_event_pkg;
+        componentEventPkg component_event_pkg;
+        selfLoggableComponentEventPkg self_loggable_component_event_pkg;
         initEventPkg init_event_pkg;
     } event;
 } reporterPkg;
