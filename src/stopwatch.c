@@ -2,7 +2,6 @@
 
 void start (stopwatch* clk){
     if (!clk->hasStarted) {
-        clk->startTime = clock();
         clk->hasStarted = true;
         clk->dragTime = 0;
         clk->isPaused = false;
@@ -36,7 +35,10 @@ void resume (stopwatch* clk) {
 
 clock_t getTime (stopwatch* clk){
     if (clk->hasStarted)
-        return clock () - clk->startTime - clk->dragTime;
+        if (clk->isPaused)
+            return clk->pauseStart;
+        else
+            return clock () - clk->dragTime;
     else
         exit(-1); // stopwatch not started
 }
