@@ -31,8 +31,13 @@ typedef struct {
     char data[MAX_EVENT_SIZE];
 } workflowEventPkg;
 
+//Structure of init_event packages
+typedef struct {
+    char data[MAX_EVENT_SIZE];
+} initEventPkg
+
 //classification of the different types of events
-typedef enum {timed_event, state_event, component_event, workflow_event} eventType;
+typedef enum {timed_event, state_event, component_event, workflow_event, init_event} eventType;
 
 typedef struct {
     clock_t time;
@@ -42,6 +47,7 @@ typedef struct {
         stateEventPkg state_event_pkg;
         componentEventPkg component_event_pkg;
         workflowEventPkg workflow_event_pkg;
+        initEventPkg init_event_pkg;
     } event;
 } reporterPkg;
 

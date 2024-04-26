@@ -7,6 +7,10 @@
 
 reporterPkg buffer[BUFFER_CAPACITY];
 int buffer_used=0;
+struct {
+    char comp_name[32];
+    char comp_filename[32];
+} componentLogger[256]
 
 stopwatch reporting_clk;
 
@@ -41,6 +45,10 @@ void report (eventType event_type, char* event){
         }
         case workflow_event:{
             sprintf(pkg.event.workflow_event_pkg.data, "%-*s\n", MAX_EVENT_SIZE-2, event);
+            break;
+        }
+        case init_event:{
+            sprintf(pkg.event.init_event_pkg.data, "%-*s\n", MAX_EVENT_SIZE-2, event);
             break;
         }
         default:
