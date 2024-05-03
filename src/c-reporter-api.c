@@ -43,8 +43,8 @@ void report (eventType event_type, char* event){
             sprintf(pkg.event.component_event_pkg.data, "%-*s\n", MAX_EVENT_SIZE-2, event);
             break;
         }
-        case init_event:{
-            sprintf(pkg.event.init_event_pkg.data, "%-*s\n", MAX_EVENT_SIZE-2, event);
+        case self_loggable_component_log_init_event:{
+            sprintf(pkg.event.self_loggable_component_log_init_event_pkg.data, "%-*s\n", MAX_EVENT_SIZE-2, event);
             break;
         }
         case self_loggable_component_event: {
