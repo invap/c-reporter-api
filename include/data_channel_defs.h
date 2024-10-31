@@ -35,12 +35,12 @@ typedef struct {
     char data[MAX_EVENT_SIZE];
 } componentEventPkg;
 
-//Structure of init_event packages
+//Structure of self_loggable_component_log_init_event packages
 typedef struct {
     char data[MAX_EVENT_SIZE];
 } selfLoggableComponentLogInitEventPkg;
 
-//Structure of component_event packages
+//Structure of self_loggable_component_event packages
 typedef struct {
     char data[MAX_EVENT_SIZE];
 } selfLoggableComponentEventPkg;
