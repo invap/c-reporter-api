@@ -20,16 +20,16 @@ There, we find three main components:
 ### C reporting API component
 The C reporting API itself implement declares three global variables:
 - the package buffer and a pointer to the first empty place:
-```
+```c
 reporterPkg buffer[BUFFER_CAPACITY];
 int buffer_used=0;
 ```
 - a global stopwatch used for time-stamping packages:
-```
+```c
 stopwatch reporting_clk;
 ```
 And implements two functions, from which only one is supposed to be used by the SUT, `report`:
-```
+```c
 void packtAndSend(reporterPkg pkg);
 void report (eventType event_type, char* event);
 ```
@@ -42,56 +42,56 @@ The function `report` takes the event type and string passed as actual parameter
 This component provides the definitions used for managing the communication channel between the SUT and the reporting application:
 - maximum size of the buffer: 
 
-```
+```c
 #define BUFFER_SIZE 65536
 ```
 64K is the operating systems default.
 - maximum size for a single event:
-```
+```c
 //  [ INSTRUMENTACION: Define el tamano del evento más largo reportado. ]
 //  [ IMPORTANTE: 0 < MAX_EVENT_SIZE <= 65528 ]
 #define MAX_EVENT_SIZE (1022 + 2)
 ```
 This line defines the maximum size for the events reported (for example, in the [example application](https://github.com/invap/rt-monitor-example-app.git "Runtime Monitor example application") accompanying this project, the longest event that is reported is 308 bytes long, plus 2 for the '\n'. It is important to note that according to this, `0 < MAX_EVENT_SIZE <= 65528` because the packages sent across the communication channel include some additional information.
 - maximum size for a package containing a single event:
-```
+```c
 #define MAX_EVENT_PKG_SIZE (MAX_EVENT_SIZE + 12)
 ```
 - maximum size for a package containing a single event:
-```
+```c
 #define BUFFER_CAPACITY (BUFFER_SIZE / MAX_EVENT_PKG_SIZE)
 ```
 - package types for: 
 	- time-related events (i.e., operations over clock variables like start, stop, pause, resume and reset):
-	```
+	```c
 	//Structure of timed_event packages
 	typedef struct {
     	char data[MAX_EVENT_SIZE];
 	} timedEventPkg;
 	```
 	- state-related (i.e., the assignment of a value to a monitored variable):
-	```
+	```c
 	//Structure of state_event packages
 	typedef struct {
     	char data[MAX_EVENT_SIZE];
 	} stateEventPkg;
 	```
 	- process-related events (i.e., notifications regarding the evolution of the execution like the starting/stoping of a task or the reaching of a checkpoint):
-	```
+	```c
 	//Structure of process_event packages
 	typedef struct {
     	char data[MAX_EVENT_SIZE];
 	} processEventPkg;
 	```
 	- component-related events (i.e., function calls):
-	```
+	```c
 	//Structure of component_event packages
 	typedef struct {
     	char data[MAX_EVENT_SIZE];
 	} componentEventPkg;
 	```
 	- self-loggable component events (i.e., the initiation of a log binded to a specific component and the reporting of a specific component event to be recorded in its associated event log):
-	```
+	```c
 	//Structure of self_loggable_component_log_init_event packages
 	typedef struct {
     	char data[MAX_EVENT_SIZE];
@@ -103,12 +103,12 @@ This line defines the maximum size for the events reported (for example, in the 
 	} selfLoggableComponentEventPkg;
 	```
 - the event type as an enumeration: 
-```
+```c
 //classification of the different types of events
 typedef enum {timed_event, state_event, process_event, component_event, self_loggable_component_log_init_event, self_loggable_component_event} eventType;
 ```
 - the package sent across the communication channel consisting of a time-stamp, the event type and an event package corresponding to the even type:
-``` 
+``` c
 typedef struct {
     clock_t time;
     eventType event_type;
@@ -130,7 +130,7 @@ This component implements a simple stopwatch providing basic functionality for s
 The operation of the stopwatch relies on storing the global time, got from the system, at the moment the stopwatch is started (attribute `startTime` in the structure shown below), as a base time-stamp and then storing the accumulated time through which the stopwatch was paused  (attribute `dragTime` in the structure shown below).
 
 The structure used to implement the stopwatch is:
-```
+```c
 typedef struct {
     clock_t startTime;
     bool hasStarted;
