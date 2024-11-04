@@ -1,8 +1,8 @@
-# C reporter API
+# A reporter API for C programs
 
-This project provides a reporting API written in C, to be used in tandem with an instrumentation-based event reporting application like the [Runtime Reporter](https://github.com/invap/rt-reporter.git "The Runtime Reporter") for the runtime verification of C programs. 
+This project provides a reporter API written in C, to be used in tandem with an instrumentation-based event reporting application like the [Runtime Reporter](https://github.com/invap/rt-reporter/ "The Runtime Reporter") for the runtime verification of C programs. 
 
-## Implementation of a reporting API for C programs
+## Implementation of the reporter API
 [Figure 1](#class-diagram) shows that architectural view of the implementation of the C reporting API.
 
 <figure id="class-diagram" style="text-align: center;">
@@ -52,7 +52,7 @@ This component provides the definitions used for managing the communication chan
 //  [ IMPORTANTE: 0 < MAX_EVENT_SIZE <= 65528 ]
 #define MAX_EVENT_SIZE (1022 + 2)
 ```
-This line defines the maximum size for the events reported (for example, in the [example application](https://github.com/invap/rt-monitor-example-app.git "Runtime Monitor example application") accompanying this project, the longest event that is reported is 308 bytes long, plus 2 for the '\n'. It is important to note that according to this, `0 < MAX_EVENT_SIZE <= 65528` because the packages sent across the communication channel include some additional information.
+This line defines the maximum size for the events reported (for example, in the [example application](https://github.com/invap/rt-monitor-example-app/ "Runtime Monitor example application") accompanying this project, the longest event that is reported is 308 bytes long, plus 2 for the '\n'. It is important to note that according to this, `0 < MAX_EVENT_SIZE <= 65528` because the packages sent across the communication channel include some additional information.
 - maximum size for a package containing a single event:
 ```c
 #define MAX_EVENT_PKG_SIZE (MAX_EVENT_SIZE + 12)
