@@ -1,6 +1,41 @@
 # A reporter API for C programs
-
 This project provides a reporter API written in C, to be used in tandem with an instrumentation-based event reporting application like the [Runtime Reporter](https://github.com/invap/rt-reporter/ "The Runtime Reporter") for the runtime verification of C programs. 
+
+
+## Installation
+In this section we will review relevant aspects of how to setup this project for using it as a reporter API written in C for using the [Runtime Reporter](https://github.com/invap/rt-reporter/ "The Runtime Reporter") and the [Runtime Monitor](https://github.com/invap/rt-monitor/ "The Runtime Monitoring").
+
+The implementation of the reporter library is distributed as source code to be used for instrumenting software artifacs. For obtaining it checkout the repository [c-reporter-api](https://github.com/invap/c-reporter-api/ "An implementaion of a reporter API for instrumenting software artifacts, for the use of the Runtime Reporter and the Runtime Monitor").
+
+### Base C language installation
+- gcc 11.x to gcc 12, or newer (https://gcc.gnu.org/)
+- clang 14.0.0 or newer (Install via [Homebrew](https://brew.sh) with command `brew install gcc`
+- MinGW (https://osdn.net/projects/mingw/)
+
+### Structure the project
+The example application project is organized as follows:
+```graphql
+rt-monitor-example-app/
+├── bin/                       # Make will put object files here
+│   ├── *c-reporter-api.o*
+│   └── *stopwatch.o*
+├── include/                   # Header files
+│   ├── c-reporter-api.h
+│   ├── data_channel_defs.h
+│   └── stopwatch.h
+├── lib/                       # Make will put the static libraries here
+│   ├── *libc-reporter-api.a*
+│   └── *libstopwatch.a*
+├── README_images/             # Images the read me file
+│   └── class-diagram.png
+├── src/                       # Source files
+│   ├── c-reporter-api.c
+│   └── stopwatch.c
+├── COPYING                    # Licence of the project 
+├── makefile                   # Make file for building the reporting library
+└── README.md                  # Read me file of the project
+```
+
 
 ## Implementation of the reporter API
 [Figure 1](#class-diagram) shows that architectural view of the implementation of the C reporting API.
