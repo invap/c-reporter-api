@@ -14,3 +14,8 @@ bin : clean
 lib : clean bin
 	ar -rcs lib/libc-reporter-api.a bin/c-reporter-api.o
 	ar -rcs lib/libstopwatch.a bin/stopwatch.o
+
+test : clean
+	gcc -c src/stopwatch.c -o bin/stopwatch.o
+	g++ -std=gnu++2b test/stopwatch/test_zero_basetime.cpp bin/stopwatch.o -lcriterion -o test/test_zero_basetime
+	g++ -std=gnu++2b test/stopwatch/test_pause_resume.cpp bin/stopwatch.o -lcriterion -o test/test_pause_resume

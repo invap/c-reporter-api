@@ -31,6 +31,10 @@ rt-monitor-example-app/
 ├── src/                       # Source files
 │   ├── c-reporter-api.c
 │   └── stopwatch.c
+├── test/                      # Criterion test files
+│   └── stopwatch/
+│       ├── test_pause_resume.cpp
+│       └── test_zero_basetime.cpp
 ├── COPYING                    # Licence of the project 
 ├── makefile                   # Make file for building the reporting library
 └── README.md                  # Read me file of the project
@@ -166,19 +170,38 @@ The operation of the stopwatch relies on storing the global time, got from the s
 
 The structure used to implement the stopwatch is:
 ```c
+typedef enum {
+    ZERO,
+    EPOCH
+} basetime;
+
 typedef struct {
-    clock_t startTime;
+    basetime zero;
+    long startTime;
     bool hasStarted;
-    clock_t dragTime;
+    long dragTime;
     bool isPaused;
-    clock_t pauseStart;
+    long pauseStart;
 } stopwatch;
 ```
 The functions implementing the operation of the stopwatch are:
-- `void start (stopwatch*)`: starts the stopwatch by storing the current time got from the system in the structure,
+- `void start (stopwatch*, basetime bt)`: starts the stopwatch choosing the use of the basetime either in `ZERO`, for computing the time-stamps using `0` as the start time, or in `EPOCH`, for computing time-stamps based on epoch (January 1st., 1970, 0 hours, 0 minutes, 0 seconds), by storing the current time got from the system in the structure,
 - `void pause (stopwatch*)`: pauses the stopwatch by setting the attribute `isPaused` to `true` in the structure of the stopwatch
 - `void resume (stopwatch*)`: resumes the operation of the stopwatch by setting the attribute `isPaused` to `false` and adding the time through which the stopwatch was paused, to the attribute `dragTime` in the structure of the stopwatch, and
-- `clock_t getTime (stopwatch*)`: returns the current time of the stopwatch by substracting the value of the attributes `startTime` and `dragTime` to the current time of the system.
+- `long getTime (stopwatch*)`: returns the current time of the stopwatch by substracting the value of the attributes `startTime` and `dragTime` to the current time of the system.
+
+### CPU time vs. Wall time
+Depending on the project one might be interested in recording time with a different time frame, either chossing to time-stamp resorting to CPU time or to Wall time. The first one is obtained by pausing the stopwatch before the reporting actions, and then resuming it after them like in the example below, extracted from the function [`main`](https://github.com/invap/rt-monitor-example-app/blob/main/buggy%20app/main.c#L17) in the project [Example application for the Runtime Monitor](https://github.com/invap/rt-monitor-example-app/), code fragment from [Line 56](https://github.com/invap/rt-monitor-example-app/blob/main/buggy%20app/main.c#L56) to [Line 62](https://github.com/invap/rt-monitor-example-app/blob/main/buggy%20app/main.c#L62):
+```c
+addition = 0;
+// [ INSTRUMENTACION: Variable assigned. ]
+pause(&reporting_clk);
+sprintf(str, "variable_value_assigned,main_addition,%d", addition);
+report(state_event,str);
+resume(&reporting_clk);
+//
+```
+In this way, wa can tamper with the stopwatch in order to get time-stamps reasonably close to the running time of the process in order to avoid counting the time consumed while executing the code inserted for instrumentating the SUT for reporting.
 
 
 ## License

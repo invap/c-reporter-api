@@ -10,17 +10,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef enum {
+    ZERO,
+    EPOCH
+} basetime;
+
 typedef struct {
-    clock_t startTime;
+    basetime zero;
+    long startTime;
     bool hasStarted;
-    clock_t dragTime;
+    long dragTime;
     bool isPaused;
-    clock_t pauseStart;
+    long pauseStart;
 } stopwatch;
 
-void start (stopwatch*);
+void start (stopwatch*, basetime bt);
 void pause (stopwatch*);
 void resume (stopwatch*);
-clock_t getTime (stopwatch*);
+long getTime (stopwatch*);
 
 #endif //C_REPORTER_API_STOPWATCH_H
