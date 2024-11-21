@@ -203,6 +203,8 @@ resume(&reporting_clk);
 ```
 In this way, wa can tamper with the stopwatch in order to get time-stamps reasonably close to the running time of the process in order to avoid counting the time consumed while executing the code inserted for instrumentating the SUT for reporting.
 
+Therefore, the invocation of the `pause` and `resume` operations is not mandatory but serves the purpose of time-stamping with marks closer to the CPU time; not using them provides a time-stamping strategy with marks closer to the wall time. Choosing one of these strategies strongly depend on the rationale under which time-stamps are to be interpreted. Needless to say that because of the use of a pipe for communicating the software under test and the event reporter is time-consuming, the use of the wall time heavily distorts the timeline by computing the time spent in reporting tasks as execution time of the SUT; an effect that might make the analysis of the timed constraints to fail erroneously stating that the implementation does not meet the desired properties. On the other hand, if time-stamps were to be used for coordinating events of procedures running on different machines, the wall time might be more adecuate than the CPU time.
+
 
 ## License
 
