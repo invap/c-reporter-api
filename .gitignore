@@ -1,2 +1,4 @@
 /bin/*
 /lib/*
+/tests/test_pause_resume
+/tests/test_zero_basetime
