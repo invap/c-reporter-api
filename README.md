@@ -82,19 +82,16 @@ This component provides the definitions used for managing the communication chan
 - maximum size of the buffer: 
 
 ```c
-#define BUFFER_SIZE 65536
+#define BUFFER_SIZE 65536 // 64K(os default) max string length.
 ```
-64K is the operating systems default.
 - maximum size for a single event:
 ```c
-//  [ INSTRUMENTACION: Define el tamano del evento más largo reportado. ]
-//  [ IMPORTANTE: 0 < MAX_EVENT_SIZE <= 65528 ]
-#define MAX_EVENT_SIZE (1022 + 2)
+#define MAX_EVENT_SIZE (1010 + 2) // 1010: data, 2: string terminator
 ```
-This line defines the maximum size for the events reported (for example, in the [example application](https://github.com/invap/rt-monitor-example-app/ "Runtime Monitor example application") accompanying this project, the longest event that is reported is 308 bytes long, plus 2 for the '\n'. It is important to note that according to this, `0 < MAX_EVENT_SIZE <= 65528` because the packages sent across the communication channel include some additional information.
+This line defines the maximum size for the events reported (for example, in the [example application](https://github.com/invap/rt-monitor-example-app/ "Runtime Monitor example application") accompanying this project, the longest event that is reported is 308 bytes long, plus 2 for the '\n'.
 - maximum size for a package containing a single event:
 ```c
-#define MAX_EVENT_PKG_SIZE (MAX_EVENT_SIZE + 12)
+#define MAX_EVENT_PKG_SIZE (MAX_EVENT_SIZE + 12)  // MAX_EVENT_SIZE: event, 8: time, 4: event_type
 ```
 - maximum size for a package containing a single event:
 ```c
@@ -148,17 +145,19 @@ typedef enum {timed_event, state_event, process_event, component_event, self_log
 ```
 - the package sent across the communication channel consisting of a time-stamp, the event type and an event package corresponding to the even type:
 ``` c
+typedef union {
+    timedEventPkg timed_event_pkg;
+    stateEventPkg state_event_pkg;
+    processEventPkg process_event_pkg;
+    componentEventPkg component_event_pkg;
+    selfLoggableComponentLogInitEventPkg self_loggable_component_log_init_event_pkg;
+    selfLoggableComponentEventPkg self_loggable_component_event_pkg;
+} eventUnion;
+
 typedef struct {
     clock_t time;
     eventType event_type;
-    union {
-        timedEventPkg timed_event_pkg;
-        stateEventPkg state_event_pkg;
-        processEventPkg process_event_pkg;
-        componentEventPkg component_event_pkg;
-        selfLoggableComponentLogInitEventPkg self_loggable_component_log_init_event_pkg;
-        selfLoggableComponentEventPkg self_loggable_component_event_pkg;
-    } event;
+    eventUnion event;
 } reporterPkg;
 ```
 
