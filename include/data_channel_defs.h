@@ -6,11 +6,8 @@
 #define __DATA_CHANNEL_DEFS_H
 
 #define BUFFER_SIZE 65536 // 64K(os default) max string length.
-//  [ INSTRUMENTACION: Define el tamano del evento más largo reportado. ]
-//  [ IMPORTANTE: 0 < MAX_EVENT_SIZE <= 65528 ]
-#define MAX_EVENT_SIZE (1022 + 2)
-//
-#define MAX_EVENT_PKG_SIZE (MAX_EVENT_SIZE + 12)
+#define MAX_EVENT_SIZE (1010 + 2) // 1006: data, 2: string terminator
+#define MAX_EVENT_PKG_SIZE (MAX_EVENT_SIZE + 12)  // MAX_EVENT_SIZE: event, 8: time, 4: event_type
 #define BUFFER_CAPACITY (BUFFER_SIZE / MAX_EVENT_PKG_SIZE)
 
 #include <time.h>
