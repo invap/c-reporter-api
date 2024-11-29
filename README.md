@@ -88,7 +88,7 @@ This component provides the definitions used for managing the communication chan
 ```c
 #define MAX_EVENT_SIZE (1010 + 2) // 1010: data, 2: string terminator
 ```
-This line defines the maximum size for the events reported (for example, in the [example application](https://github.com/invap/rt-monitor-example-app/ "Runtime Monitor example application") accompanying this project, the longest event that is reported is 308 bytes long, plus 2 for the '\n'.
+This line defines the maximum size for the events reported (for example, in the [example application](https://github.com/invap/rt-monitor-example-app/ "Runtime Monitor example application") accompanying this project, the longest event that is reported is 308 bytes long, plus 2 for the '\0\0' string terminator.
 - maximum size for a package containing a single event:
 ```c
 #define MAX_EVENT_PKG_SIZE (MAX_EVENT_SIZE + 12)  // MAX_EVENT_SIZE: event, 8: time, 4: event_type
@@ -97,67 +97,17 @@ This line defines the maximum size for the events reported (for example, in the 
 ```c
 #define BUFFER_CAPACITY (BUFFER_SIZE / MAX_EVENT_PKG_SIZE)
 ```
-- package types for: 
-	- time-related events (i.e., operations over clock variables like start, stop, pause, resume and reset):
-	```c
-	//Structure of timed_event packages
-	typedef struct {
-    	char data[MAX_EVENT_SIZE];
-	} timedEventPkg;
-	```
-	- state-related (i.e., the assignment of a value to a monitored variable):
-	```c
-	//Structure of state_event packages
-	typedef struct {
-    	char data[MAX_EVENT_SIZE];
-	} stateEventPkg;
-	```
-	- process-related events (i.e., notifications regarding the evolution of the execution like the starting/stoping of a task or the reaching of a checkpoint):
-	```c
-	//Structure of process_event packages
-	typedef struct {
-    	char data[MAX_EVENT_SIZE];
-	} processEventPkg;
-	```
-	- component-related events (i.e., function calls):
-	```c
-	//Structure of component_event packages
-	typedef struct {
-    	char data[MAX_EVENT_SIZE];
-	} componentEventPkg;
-	```
-	- self-loggable component events (i.e., the initiation of a log binded to a specific component and the reporting of a specific component event to be recorded in its associated event log):
-	```c
-	//Structure of self_loggable_component_log_init_event packages
-	typedef struct {
-    	char data[MAX_EVENT_SIZE];
-	} selfLoggableComponentLogInitEventPkg;
-
-	//Structure of self_loggable_component_event packages
-	typedef struct {
-    	char data[MAX_EVENT_SIZE];
-	} selfLoggableComponentEventPkg;
-	```
 - the event type as an enumeration: 
 ```c
 //classification of the different types of events
 typedef enum {timed_event, state_event, process_event, component_event, self_loggable_component_log_init_event, self_loggable_component_event} eventType;
 ```
-- the package sent across the communication channel consisting of a time-stamp, the event type and an event package corresponding to the even type:
+- the package sent across the communication channel consisting of a time-stamp, the event type and an event detailed as a fixed-size string:
 ``` c
-typedef union {
-    timedEventPkg timed_event_pkg;
-    stateEventPkg state_event_pkg;
-    processEventPkg process_event_pkg;
-    componentEventPkg component_event_pkg;
-    selfLoggableComponentLogInitEventPkg self_loggable_component_log_init_event_pkg;
-    selfLoggableComponentEventPkg self_loggable_component_event_pkg;
-} eventUnion;
-
 typedef struct {
     clock_t time;
     eventType event_type;
-    eventUnion event;
+    char event[MAX_EVENT_SIZE];
 } reporterPkg;
 ```
 
