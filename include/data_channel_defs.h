@@ -45,17 +45,20 @@ typedef struct {
 //Classification of the different types of events
 typedef enum {timed_event, state_event, process_event, component_event, self_loggable_component_log_init_event, self_loggable_component_event} eventType;
 
+typedef union {
+    timedEventPkg timed_event_pkg;
+    stateEventPkg state_event_pkg;
+    processEventPkg process_event_pkg;
+    componentEventPkg component_event_pkg;
+    selfLoggableComponentLogInitEventPkg self_loggable_component_log_init_event_pkg;
+    selfLoggableComponentEventPkg self_loggable_component_event_pkg;
+} eventUnion;
+
 typedef struct {
     clock_t time;
     eventType event_type;
-    union {
-        timedEventPkg timed_event_pkg;
-        stateEventPkg state_event_pkg;
-        processEventPkg process_event_pkg;
-        componentEventPkg component_event_pkg;
-        selfLoggableComponentLogInitEventPkg self_loggable_component_log_init_event_pkg;
-        selfLoggableComponentEventPkg self_loggable_component_event_pkg;
-    } event;
+    eventUnion event;
 } reporterPkg;
+
 
 #endif //__DATA_CHANNEL_DEFS_H
