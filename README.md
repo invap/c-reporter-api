@@ -15,7 +15,7 @@ The implementation of the reporter library is distributed as source code to be u
 ### Structure the project
 The example application project is organized as follows:
 ```graphql
-rt-monitor-example-app/
+c-reporter-api/
 ├── bin/                       # Make will put object files here
 │   ├── *c-reporter-api.o*
 │   └── *stopwatch.o*
