@@ -13,7 +13,7 @@ The implementation of the reporter library is distributed as source code to be u
 - MinGW (https://osdn.net/projects/mingw/)
 
 ### Structure the project
-The example application project is organized as follows:
+The C reporting library project is organized as follows:
 ```graphql
 c-reporter-api/
 ├── bin/                       # Make will put object files here
