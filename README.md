@@ -51,7 +51,9 @@ c-reporter-api/
 </figure>
 
 There, we find three main components:
-1. the C reporting API (itself) [`c-reporting-api.c`](https://github.com/invap/c-reporter-api/blob/main/src/c-reporter-api.c): it is the main component of the library as it implements the function [`report`](https://github.com/invap/c-reporter-api/blob/main/src/c-reporter-api.c#L29), used by the software under test (SUT) for reporting events occurring along its execution (see Section [C reporting API component](#c-reporting-api-component) for more details).
+1. the C reporting API (itself) [`c-reporting-api.c`](https://github.
+   com/invap/c-reporter-api/blob/main/src/c-reporter-api.c): it is the main component of the library as it 
+   implements the function [`report`](https://github.com/invap/c-reporter-api/blob/main/src/c-reporter-api.c#L35), used by the software under test (SUT) for reporting events occurring along its execution (see Section [C reporting API component](#c-reporting-api-component) for more details).
 2. the data channel definitions [`data_channel_defs.h`](https://github.com/invap/c-reporter-api/blob/main/src/data_channel_defs.h): declares the constants and data structures used for managing the communication channel that connects the SUT and the reporting application (see Section [Data channel definitions](#data-channel-definitions) for more details).
 3. the Stopwatch [`stopwatch.c`](https://github.com/invap/c-reporter-api/blob/main/src/stopwatch.c): implements a stopwatch for time-stamping events (see Section [Stopwatch component](#stopwatch-component) for more details).
 
@@ -69,7 +71,7 @@ stopwatch reporting_clk;
 ```
 And implements two functions, from which only one is supposed to be used by the SUT, `report`:
 ```c
-void packtAndSend(reporterPkg pkg);
+void packtAndSend(reporterPkg pkg, bool end)of)report);
 void report (eventType event_type, char* event);
 ```
 The function `packtAndSend` implements buffer managing by appending packages until the buffer is full and sent through the communication channel.
@@ -100,7 +102,15 @@ This line defines the maximum size for the events reported (for example, in the 
 - the event type as an enumeration: 
 ```c
 //classification of the different types of events
-typedef enum {timed_event, state_event, process_event, component_event, self_loggable_component_log_init_event, self_loggable_component_event} eventType;
+typedef enum {
+    timed_event, 
+    state_event, 
+    process_event, 
+    component_event, 
+    self_loggable_component_log_init_event, 
+    self_loggable_component_event,
+    end_of_report_event
+} eventType;
 ```
 - the package sent across the communication channel consisting of a time-stamp, the event type and an event detailed as a fixed-size string:
 ``` c

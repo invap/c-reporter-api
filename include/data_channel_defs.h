@@ -13,7 +13,15 @@
 #include <time.h>
 
 //Classification of the different types of events
-typedef enum {timed_event, state_event, process_event, component_event, self_loggable_component_log_init_event, self_loggable_component_event} eventType;
+typedef enum {
+    timed_event,
+    state_event,
+    process_event,
+    component_event,
+    self_loggable_component_log_init_event,
+    self_loggable_component_event,
+    end_of_report_event
+} eventType;
 
 typedef struct {
     clock_t time;

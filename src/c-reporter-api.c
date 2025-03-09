@@ -14,8 +14,14 @@ int buffer_used=0;
 
 stopwatch reporting_clk;
 
-void packAndSend(reporterPkg pkg){
+void packAndSend(reporterPkg pkg, bool end_of_report){
     // Assume that the buffer always is not full
+    if end_of_report {
+        for (int i=BUFFER_USED; i<BUFFER_CAPACITY-1; i++ {
+            buffer[buffer_used]=pkg;
+            buffer_used++;
+        }
+    }
     buffer[buffer_used]=pkg;
     buffer_used++;
     // If the buffer is full, send it and mark as empty
@@ -52,6 +58,10 @@ void report (eventType event_type, char* event){
             break;
         }
         case self_loggable_component_event: {
+            sprintf(pkg.event, "%-*s\n", MAX_EVENT_SIZE-2, event);
+            break;
+        }
+        case end_of_report_event: {
             sprintf(pkg.event, "%-*s\n", MAX_EVENT_SIZE-2, event);
             break;
         }

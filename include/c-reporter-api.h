@@ -7,7 +7,7 @@
 
 #include "data_channel_defs.h"
 
-void packtAndSend(reporterPkg pkg);
+void packtAndSend(reporterPkg pkg, bool end_of_report);
 void report (eventType event_type, char* event);
 
 #endif //__SIMULATOR_API
