@@ -4,8 +4,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 
+#include "../include/data_channel_defs.h"
 #include "../include/c-reporter-api.h"
 #include "../include/stopwatch.h"
 
@@ -16,8 +18,8 @@ stopwatch reporting_clk;
 
 void packAndSend(reporterPkg pkg, bool end_of_report){
     // Assume that the buffer always is not full
-    if end_of_report {
-        for (int i=BUFFER_USED; i<BUFFER_CAPACITY-1; i++ {
+    if (end_of_report) {
+        for (int i=buffer_used; i<BUFFER_CAPACITY-1; i++) {
             buffer[buffer_used]=pkg;
             buffer_used++;
         }
@@ -36,37 +38,25 @@ void report (eventType event_type, char* event){
     reporterPkg pkg;
     pkg.time = getTime (&reporting_clk);
     pkg.event_type = event_type;
+    bool end_of_report;
     switch (pkg.event_type){
-        case timed_event: {
-            sprintf(pkg.event, "%-*s\n", MAX_EVENT_SIZE-2, event);
-            break;
-        }
-        case state_event:{
-            sprintf(pkg.event, "%-*s\n", MAX_EVENT_SIZE-2, event);
-            break;
-        }
-        case process_event:{
-            sprintf(pkg.event, "%-*s\n", MAX_EVENT_SIZE-2, event);
-            break;
-        }
-        case component_event: {
-            sprintf(pkg.event, "%-*s\n", MAX_EVENT_SIZE-2, event);
-            break;
-        }
-        case self_loggable_component_log_init_event:{
-            sprintf(pkg.event, "%-*s\n", MAX_EVENT_SIZE-2, event);
-            break;
-        }
+        case timed_event:
+        case state_event:
+        case process_event:
+        case component_event:
+        case self_loggable_component_log_init_event:
         case self_loggable_component_event: {
             sprintf(pkg.event, "%-*s\n", MAX_EVENT_SIZE-2, event);
+            end_of_report = false;
             break;
         }
         case end_of_report_event: {
             sprintf(pkg.event, "%-*s\n", MAX_EVENT_SIZE-2, event);
+            end_of_report = true;
             break;
         }
         default:
             exit(1);
     }
-    packAndSend(pkg);
+    packAndSend(pkg, end_of_report);
 }

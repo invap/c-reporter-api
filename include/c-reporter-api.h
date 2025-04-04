@@ -5,6 +5,8 @@
 #ifndef __SIMULATOR_API
 #define __SIMULATOR_API
 
+#include <stdbool.h>
+
 #include "data_channel_defs.h"
 
 void packtAndSend(reporterPkg pkg, bool end_of_report);
