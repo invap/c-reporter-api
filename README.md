@@ -107,8 +107,6 @@ typedef enum {
     state_event, 
     process_event, 
     component_event, 
-    self_loggable_component_log_init_event, 
-    self_loggable_component_event,
     end_of_report_event
 } eventType;
 ```
