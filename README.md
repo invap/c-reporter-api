@@ -35,7 +35,7 @@ c-reporter-api/
 │   └── stopwatch/
 │       ├── test_pause_resume.cpp
 │       └── test_zero_basetime.cpp
-├── COPYING                    # Licence of the project 
+├── LICENSE                    # Licence of the project 
 ├── makefile                   # Make file for building the reporting library
 └── README.md                  # Read me file of the project
 ```
